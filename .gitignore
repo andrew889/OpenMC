@@ -1,0 +1,8 @@
+*.opensdf
+OpenMC.sdf
+OpenMC.suo
+OpenMC.vcxproj.user
+Release/
+Debug/
+*.swp
+*~
