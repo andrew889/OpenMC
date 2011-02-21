@@ -24,9 +24,21 @@
     <ClInclude Include="src\TerrainGen.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\math\Matrix.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\math\Vector.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\math\MatrixTransform.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\client\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\math\MatrixTransform.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

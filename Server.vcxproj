@@ -75,10 +75,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\Chunk.hpp" />
+    <ClInclude Include="src\math\Matrix.hpp" />
+    <ClInclude Include="src\math\MatrixTransform.hpp" />
+    <ClInclude Include="src\math\Vector.hpp" />
     <ClInclude Include="src\Octree.hpp" />
     <ClInclude Include="src\TerrainGen.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\math\MatrixTransform.cpp" />
     <ClCompile Include="src\server\main.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
