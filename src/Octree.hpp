@@ -15,13 +15,30 @@ struct NodeBase
 {
 };
 
-struct Node : public NodeBase
+struct InnerNode : public NodeBase
 {
-	NodeBase* parent;
-	NodeBase* children[DIR_MAX];
+	// children[0] is the parent
+	NodeBase* children[4097]; // 8**4+1
+
+	inline int getChild(int i, int child)
+	{
+		return 8*i + child;
+	}
+
+	inline int getParent(int i)
+	{
+		return i/8;
+	}
 };
 
-struct Leaf : public NodeBase
+// Will call the terrain generator and be converted into regular InnerNodes/BrickLeafs
+struct SparseNode : public NodeBase
+{
+	// TODO: Change this to the actual terrain gen info type when that type is created
+	void* terrain_gen_info;
+};
+
+struct BlockLeaf : public NodeBase
 {
 	// TODO: Change this to the actual block type info when that type is created
 	void* block_info;
