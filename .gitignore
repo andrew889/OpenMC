@@ -4,5 +4,6 @@
 *.vcxproj.user
 Release/
 Debug/
+ipch/
 *.swp
 *~
