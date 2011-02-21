@@ -1,8 +1,7 @@
 #ifndef OPENMC_OCTREE_HPP
 #define OPENMC_OCTREE_HPP
 
-namespace octree
-{
+namespace octree {
 
 enum Dir
 {
@@ -29,6 +28,16 @@ struct InnerNode : public NodeBase
 	{
 		return i/8;
 	}
+
+	inline bool isRoot(int i)
+	{
+		return i == 0;
+	}
+
+	inline bool isLeaf(int i)
+	{
+		return i > 513; /* 8**3+1 */
+	}
 };
 
 // Will call the terrain generator and be converted into regular InnerNodes/BrickLeafs
@@ -38,13 +47,18 @@ struct SparseNode : public NodeBase
 	void* terrain_gen_info;
 };
 
-struct BlockLeaf : public NodeBase
-{
+struct Block {
 	// TODO: Change this to the actual block type info when that type is created
 	void* block_info;
 	unsigned short block_id;
 	unsigned char light_level;
 	unsigned char damage;
+};
+
+struct BucketLeaf : public NodeBase
+{
+	static const int BUCKET_SIZE = 4;
+	Block blocks[BUCKET_SIZE*BUCKET_SIZE*BUCKET_SIZE];
 };
 
 } // namespace octree

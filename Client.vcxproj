@@ -76,6 +76,7 @@
   <ItemGroup>
     <ClInclude Include="src\Chunk.hpp" />
     <ClInclude Include="src\Octree.hpp" />
+    <ClInclude Include="src\TerrainGen.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\client\main.cpp" />
