@@ -16,8 +16,10 @@ struct NodeBase
 
 struct InnerNode : public NodeBase
 {
+	static const int DEPTH = 4;
+	static const int ARRAY_SIZE = 4097; // 8**4+1
 	// children[0] is the parent
-	NodeBase* children[4097]; // 8**4+1
+	NodeBase* children[ARRAY_SIZE];
 
 	inline int getChild(int i, int child)
 	{
