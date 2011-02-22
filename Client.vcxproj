@@ -82,6 +82,7 @@
     <ClInclude Include="src\client\gl\ShaderProgram.hpp" />
     <ClInclude Include="src\client\gl\Texture.hpp" />
     <ClInclude Include="src\client\gl\VertexArrayObject.hpp" />
+    <ClInclude Include="src\math\CompilerMath.hpp" />
     <ClInclude Include="src\math\Matrix.hpp" />
     <ClInclude Include="src\math\MatrixTransform.hpp" />
     <ClInclude Include="src\math\Vector.hpp" />
