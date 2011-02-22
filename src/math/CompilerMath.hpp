@@ -33,4 +33,18 @@ struct csum_powers<Base, 0>
 	static const int x = 1;
 };
 
+
+template <int Base, int N>
+struct clog
+{
+	static const int x = 1 + clog<Base, N / Base>::x;
+	static_assert(N > 0, "N must be > 0");
+};
+
+template <int Base>
+struct clog<Base, 1>
+{
+	static const int x = 0;
+};
+
 #endif // OPENMC_MATH_COMPILERMATH_HPP
