@@ -10,8 +10,23 @@ enum Dir
 	DIR_MAX
 };
 
+struct InnerNode;
+struct SparseNode;
+struct EmptyNode;
+struct BucketLeaf;
+
+class OctreeNodeVisitor
+{
+public:
+	virtual void visit(InnerNode&) = 0;
+	virtual void visit(SparseNode&) = 0;
+	virtual void visit(EmptyNode&) = 0;
+	virtual void visit(BucketLeaf&) = 0;
+};
+
 struct NodeBase
 {
+	virtual void accept(OctreeNodeVisitor& v) = 0;
 };
 
 struct InnerNode : public NodeBase
@@ -40,6 +55,11 @@ struct InnerNode : public NodeBase
 	{
 		return i > 513; /* 8**3+1 */
 	}
+
+	virtual void accept(OctreeNodeVisitor& v)
+	{
+		v.visit(*this);
+	}
 };
 
 // Will call the terrain generator and be converted into regular InnerNodes/BrickLeafs
@@ -47,6 +67,19 @@ struct SparseNode : public NodeBase
 {
 	// TODO: Change this to the actual terrain gen info type when that type is created
 	void* terrain_gen_info;
+
+	virtual void accept(OctreeNodeVisitor& v)
+	{
+		v.visit(*this);
+	}
+};
+
+struct EmptyNode : public NodeBase
+{
+	virtual void accept(OctreeNodeVisitor& v)
+	{
+		v.visit(*this);
+	}
 };
 
 struct Block {
@@ -61,6 +94,11 @@ struct BucketLeaf : public NodeBase
 {
 	static const int BUCKET_SIZE = 4;
 	Block blocks[BUCKET_SIZE*BUCKET_SIZE*BUCKET_SIZE];
+
+	virtual void accept(OctreeNodeVisitor& v)
+	{
+		v.visit(*this);
+	}
 };
 
 } // namespace octree
