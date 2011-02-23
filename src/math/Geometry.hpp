@@ -29,7 +29,7 @@ struct NOrthotope {
 	void normalize()
 	{
 		for (unsigned int i = 0; i < N; ++i) {
-			if (size < 0.f) {
+			if (size[i] < 0.f) {
 				size[i] = -size[i];
 				origin[i] -= size[i];
 			}
