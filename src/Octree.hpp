@@ -1,6 +1,10 @@
 #ifndef OPENMC_OCTREE_HPP
 #define OPENMC_OCTREE_HPP
 
+#include "math/CompilerMath.hpp"
+
+#include <utility>
+
 namespace octree {
 
 enum Dir
@@ -12,7 +16,7 @@ enum Dir
 
 struct InnerNode;
 struct SparseNode;
-struct EmptyNode;
+struct EmptyLeaf;
 struct BucketLeaf;
 
 class OctreeNodeVisitor
@@ -20,30 +24,31 @@ class OctreeNodeVisitor
 public:
 	virtual void visit(InnerNode&) = 0;
 	virtual void visit(SparseNode&) = 0;
-	virtual void visit(EmptyNode&) = 0;
+	virtual void visit(EmptyLeaf&) = 0;
 	virtual void visit(BucketLeaf&) = 0;
 };
 
 struct NodeBase
 {
 	virtual void accept(OctreeNodeVisitor& v) = 0;
+
+	InnerNode* parent;
+	short parent_i;
 };
 
 struct InnerNode : public NodeBase
 {
-	static const int DEPTH = 4;
-	static const int ARRAY_SIZE = 4097; // 8**4+1
-	// children[0] is the parent
-	NodeBase* children[ARRAY_SIZE];
+	static const int DEPTH = 2;
+	static const int ARRAY_SIZE = csum_powers<8, DEPTH>::x;
 
 	inline int getChild(int i, int child)
 	{
-		return 8*i + child;
+		return (8 * i) + 1 + child;
 	}
 
 	inline int getParent(int i)
 	{
-		return i/8;
+		return (i - 1) / 8;
 	}
 
 	inline bool isRoot(int i)
@@ -53,28 +58,35 @@ struct InnerNode : public NodeBase
 
 	inline bool isLeaf(int i)
 	{
-		return i > 513; /* 8**3+1 */
+		return i >= csum_powers<8, DEPTH - 1>::x;
 	}
 
 	virtual void accept(OctreeNodeVisitor& v)
 	{
 		v.visit(*this);
 	}
+
+	// children[0] is [strike]the parent[/strike] unused.
+	// TODO: Fix the above functions so we can save a pointer.
+	NodeBase* children[ARRAY_SIZE];
 };
 
 // Will call the terrain generator and be converted into regular InnerNodes/BrickLeafs
 struct SparseNode : public NodeBase
 {
-	// TODO: Change this to the actual terrain gen info type when that type is created
-	void* terrain_gen_info;
+	// std::pair<dest, dest_i> >
+	std::pair<InnerNode*, int> allocateSpaceForSplitting(NodeBase** root_ptr);
 
 	virtual void accept(OctreeNodeVisitor& v)
 	{
 		v.visit(*this);
 	}
+
+	// TODO: Change this to the actual terrain gen info type when that type is created
+	void* terrain_gen_info;
 };
 
-struct EmptyNode : public NodeBase
+struct EmptyLeaf : public NodeBase
 {
 	virtual void accept(OctreeNodeVisitor& v)
 	{
@@ -92,13 +104,14 @@ struct Block {
 
 struct BucketLeaf : public NodeBase
 {
-	static const int BUCKET_SIZE = 4;
-	Block blocks[BUCKET_SIZE*BUCKET_SIZE*BUCKET_SIZE];
+	static const int BUCKET_SIZE = 8;
 
 	virtual void accept(OctreeNodeVisitor& v)
 	{
 		v.visit(*this);
 	}
+
+	Block blocks[cpow<BUCKET_SIZE, 3>::x];
 };
 
 } // namespace octree

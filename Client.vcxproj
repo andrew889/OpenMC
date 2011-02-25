@@ -94,6 +94,8 @@
     <ClCompile Include="src\client\gl\Shader.cpp" />
     <ClCompile Include="src\client\main.cpp" />
     <ClCompile Include="src\math\MatrixTransform.cpp" />
+    <ClCompile Include="src\Octree.cpp" />
+    <ClCompile Include="src\TerrainGen.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
