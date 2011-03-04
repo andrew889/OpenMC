@@ -7,4 +7,5 @@ set(SRC ${SRC}
 	${SRCD}/MatrixTransform.cpp
 	${SRCD}/MatrixTransform.hpp
 	${SRCD}/Vector.hpp
+	PARENT_SCOPE
 )

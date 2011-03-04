@@ -11,4 +11,6 @@ set(SRC
 )
 add_subdirectory(math)
 
+setup_groups("${SRC}")
+
 add_library(OpenMC_shared ${SRC})

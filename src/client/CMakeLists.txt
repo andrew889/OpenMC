@@ -8,6 +8,8 @@ set(SRC
 )
 add_subdirectory(gl)
 
+setup_groups("${SRC}")
+
 find_package(OpenGL REQUIRED)
 find_package(GLEW REQUIRED)
 find_package(SFML 2.0 REQUIRED system window)

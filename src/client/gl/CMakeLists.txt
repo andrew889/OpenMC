@@ -7,4 +7,5 @@ set(SRC ${SRC}
 	${SRCD}/ShaderProgram.hpp
 	${SRCD}/Texture.hpp
 	${SRCD}/VertexArrayObject.hpp
+	PARENT_SCOPE
 )
