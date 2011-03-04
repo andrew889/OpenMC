@@ -8,11 +8,11 @@
 #include <boost/tuple/tuple.hpp>
 #include <cstdlib>
 
-#include "../Chunk.hpp"
-#include "../Octree.hpp"
-#include "../TerrainGen.hpp"
+#include "Chunk.hpp"
+#include "Octree.hpp"
+#include "TerrainGen.hpp"
 #include "gl/BufferObject.hpp"
-#include "../math/Geometry.hpp"
+#include "math/Geometry.hpp"
 
 math::vec3 getCorner(const math::Box& b, octree::Dir dir)
 {
